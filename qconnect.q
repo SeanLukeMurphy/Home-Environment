@@ -3,7 +3,7 @@
 .log.g:{[t;h;f;m] neg[h](sv["|";(string[.z.p];string[t];string[f];m)])}
 .log.o:.log.g[`OUT;1;;];
 .log.e:.log.g[`ERR;1;;];
-o:.Q.def[`name`init`port!(`daemon;1b;10701)].Q.opt[.z.x];
+o:.Q.def[`name`init`port!(`discovery;1b;10701)].Q.opt[.z.x];
 history:([time:"p"$()]cmd:`$();status:`$();error:`$());
 con:`$"::",string[o`port],":admin:admin";
 
