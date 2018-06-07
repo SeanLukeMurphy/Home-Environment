@@ -1,18 +1,17 @@
 \c 100 200
 // - Load in config
-\l <path to logging config>
-
+.log.g:{[t;h;f;m] neg[h](sv["|";(string[.z.p];string[t];string[f];m)])}
 .log.o:.log.g[`OUT;1;;];
 .log.e:.log.g[`ERR;1;;];
-o:.Q.def[`name`init`port!(`daemon;1b;10500)].Q.opt[.z.x];
+o:.Q.def[`name`init`port!(`daemon;1b;10701)].Q.opt[.z.x];
 history:([time:"p"$()]cmd:`$();status:`$();error:`$());
-con:`$"::",sting[o`port],":admin:admin";
+con:`$"::",string[o`port],":admin:admin";
 
 // - Banner function
 banner:{[x]
  w:120;
  wrap:{[w;x] show "|",(w#x),"|"}[w;];
- wrap each ("-";"=");
+ wrap each ("-";" ");
  show "|",#[floor[a];" "],x,#[ceiling a:%[w-count[x];2];" "],"|";
  wrap each (" ";"-");
  }
@@ -43,7 +42,7 @@ initcon:{
  .z.pi:{
   .s.s:`OK;
   .s.e:`;
-  $[any ~[-1_c;]each invalidcmds;
+  $[any ~[-1_x;]each invalidcmds;
    input[`invalid][];
    any key[input] in a:`$first vs[" ";-1_x];
    input[a][x];
