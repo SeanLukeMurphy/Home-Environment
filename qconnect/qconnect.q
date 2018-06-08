@@ -8,7 +8,7 @@ history:([time:"p"$()]cmd:`$();status:`$();error:`$());
 con:`$"::",string[o`port],":admin:admin";
 
 // - Banner function
-banner:{[x]
+banner:{
  w:120;
  wrap:{[w;s;x] -1 "|",#[floor[a];s],x,#[ceiling a:%[w-count[x];2];s],"|"}[w;;];
  wrap["-";"-"];
@@ -56,6 +56,6 @@ initcon:{
  };
  
 invalidcmds:("\\\\";"exit");
-banner "Qconnect Version 1.0"
+banner[];
 if[`~o`name;.log.e[`INIT;"User must specify procname"];exit 0];
 if[o`init;initcon[]];
