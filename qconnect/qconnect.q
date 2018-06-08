@@ -10,11 +10,14 @@ con:`$"::",string[o`port],":admin:admin";
 // - Banner function
 banner:{[x]
  w:120;
- wrap:{[w;x] show "|",(w#x),"|"}[w;];
- wrap each ("-";" ");
- show "|",#[floor[a];" "],x,#[ceiling a:%[w-count[x];2];" "],"|";
- wrap each (" ";"-");
- }
+ wrap:{[w;s;x] -1 "|",#[floor[a];s],x,#[ceiling a:%[w-count[x];2];s],"|"}[w;;];
+ wrap["-";"-"];
+ wrap[" ";" "];
+ wrap[" ";]each ("Qconnect";"-----------";"e:   Seanlukemurphy@gmail.com";"  w: www.GitHub.com/SeanLukeMurphy");
+ wrap[" ";" "];
+ wrap["-";"-"];
+ };
+
  
 // - Input commands
 
