@@ -1,6 +1,4 @@
-# Home Environment
-
-Custom tools
+# Custom tools
 
 ## Qconnect
 
