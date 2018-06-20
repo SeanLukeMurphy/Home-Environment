@@ -42,22 +42,27 @@
   @[system;(,/) .controller.procs[dict`procname;`cmd];{-2"SOMETHING WENT WRONG;"}]
   };
 
-.controller.kill:{[proc]
- show     (raze .controller.procs[`killtick;`cmd]0 1)," -.servers.CONNECTIONS ",string[.controller.procs[proc;`proctype]],last .controller.procs[`killtick;`cmd] 
- @[system;(raze .controller.procs[`killtick;`cmd]0 1)," -.servers.CONNECTIONS ",string[.controller.procs[proc;`proctype]],last .controller.procs[`killtick;`cmd];{-2"Something went wrong";}];
-  show "Killing ",string[proc]
+.controller.kill9:{[proc]
+ @[system;"kill -9 ",.controller.procstatus[proc;`pid];{-2"Something went wrong when trying to kill the process: ",x;}]
+ };
+.controller.shutdown:{
+ .controller.checkprocs[];
+ .controller.kill9 each select procname from .controller.procstatus where status=`UP;
+ .controller.checkprocs[];
+ if[count select from .controller.procstatus where status=`UP;exit 0]; 
  };
 
 // - This should: Check for downed processes, and try to restart if and only if startwithall=1b!
 
 .controller.checkprocs:{
   / TODO (smur) Make windows equivalent 1. Check OS, set .controller.findprocs to either unix or windows command, logic should stay the same after this
-  procs:system "ps -ef";
+  procs:system "ps -eo pid,cmd";
   `.controller.procstatus upsert {[procs;dict]
    i:where 1<=count each ss[;dict[`cmd] 1]each procs;
+   break;
    $[0=count i;
     :(dict`procname;`DOWN;dict`startwithall;pid:"");
-    :(dict`procname;`UP;dict`startwithall;vs[" ";first procs i] 2)
+    :(dict`procname;`UP;dict`startwithall;first vs[" ";first procs i])
    ];
    }[procs;]each 0!.controller.procs;
   down:0!select from .controller.procstatus where status=`DOWN;
@@ -72,7 +77,8 @@
 
 .controller.stopproc:{[proc]
   .controller.updatestartflag[proc;0b];
-  .controller.kill[proc];
+  .controller.kill9[proc];
+  .controller.checkprocs[];
  };
 
 .controller.restartproc:{[proc]
